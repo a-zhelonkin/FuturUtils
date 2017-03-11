@@ -1,5 +1,5 @@
 /.gradle/
 /.idea/
-/build/
+/build/tmp/
 /log/
 /out/

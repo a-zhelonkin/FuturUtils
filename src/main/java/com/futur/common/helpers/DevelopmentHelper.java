@@ -38,6 +38,8 @@ public final class DevelopmentHelper {
      * выводом в лог
      *
      * @param unsafe Небезопасная Функция.
+     * @param <T> type
+     * @return type
      */
     @Nullable
     public static <T> T executeSafe(@NotNull ThrowableUnsafeFunction<T> unsafe) {
