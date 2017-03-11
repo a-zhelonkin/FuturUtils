@@ -1,0 +1,22 @@
+allprojects {
+    group = 'FuturUtils'
+    version = null
+
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    compileJava.options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.guava:guava:19.0'
+    compile 'org.jetbrains:annotations:15.0'
+    compile 'org.slf4j:slf4j-api:1.7.6'
+    compile 'com.hynnet:logback-classic:1.1.3'
+}
