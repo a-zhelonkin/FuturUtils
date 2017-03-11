@@ -1,6 +1,9 @@
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
 allprojects {
-    group = 'FuturUtils'
-    version = null
+    group = 'com.github.alexm4q'
+    version = 'master-SNAPSHOT'
 
     apply plugin: 'java'
 
