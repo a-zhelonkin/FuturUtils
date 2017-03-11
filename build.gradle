@@ -20,3 +20,17 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.6'
     compile 'com.hynnet:logback-classic:1.1.3'
 }
+
+configure(':FuturUtils') {
+    apply plugin: 'distribution'
+
+    def sourceJar = "${project.rootDir}\\build\\libs\\${project.name}.jar"
+    println sourceJar
+
+    task copyBuilds(type: Copy) {
+        from sourceJar
+        into "${project.rootDir}\\source\\"
+    }
+
+    build.finalizedBy copyBuilds
+}
