@@ -3,6 +3,7 @@ package com.futur.common.log;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.util.ContextInitializer;
 import ch.qos.logback.core.util.StatusPrinter;
+import com.futur.common.helpers.StringHelper;
 import com.futur.common.helpers.date.DateHelper;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -22,34 +23,34 @@ public final class LogInitializer {
     @NotNull
     private static final Logger LOG = getLogger(LogInitializer.class);
 
-    public static void initLogFileName(@NotNull final String property,
-                                       @NotNull final String fileNameSuffix) {
-
-        executeSafe(() -> setupProperty(property, fileNameSuffix));
+    private LogInitializer() {
+        StringHelper.throwNonInitializeable();
     }
 
-    private static void setupProperty(@NotNull final String propertyName,
-                                      @NotNull final String fileNamePrefix) throws Exception {
-        @NotNull final String fileName = fileNamePrefix + DateHelper.now() + ".log";
-        @NotNull final Path folderPath = Paths.get("log");
+    public static void initLogFileName(@NotNull final String propertyName,
+                                       @NotNull final String fileNamePrefix) {
+        executeSafe(() -> {
+            @NotNull final String fileName = fileNamePrefix + DateHelper.now() + ".log";
+            @NotNull final Path folderPath = Paths.get("log");
 
-        if (!Files.isDirectory(folderPath)) {
-            Files.createDirectory(folderPath);
-        }
+            if (!Files.isDirectory(folderPath)) {
+                Files.createDirectory(folderPath);
+            }
 
-        @NotNull final String absoluteFolderPath = folderPath.toAbsolutePath().toString();
-        @NotNull final String logFilePath = absoluteFolderPath + File.separator + fileName;
+            @NotNull final String absoluteFolderPath = folderPath.toAbsolutePath().toString();
+            @NotNull final String logFilePath = absoluteFolderPath + File.separator + fileName;
 
-        LOG.info("Path to log {}", logFilePath);
+            LOG.info("Path to log {}", logFilePath);
 
-        System.setProperty(propertyName, logFilePath);
+            System.setProperty(propertyName, logFilePath);
 
-        @NotNull final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        @NotNull final ContextInitializer contextInitializer = new ContextInitializer(loggerContext);
+            @NotNull final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+            @NotNull final ContextInitializer contextInitializer = new ContextInitializer(loggerContext);
 
-        loggerContext.reset();
-        contextInitializer.autoConfig();
-        StatusPrinter.printInCaseOfErrorsOrWarnings(loggerContext);
+            loggerContext.reset();
+            contextInitializer.autoConfig();
+            StatusPrinter.printInCaseOfErrorsOrWarnings(loggerContext);
+        });
     }
 
 }
