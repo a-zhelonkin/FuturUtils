@@ -145,7 +145,7 @@ public final class ResourcesHelper {
         return Preconditions.checkNotNull(executeSafe(() -> {
             @NotNull final ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale);
             @NotNull final FXMLLoader loader = new FXMLLoader(url);
-            resourceBundle.keySet().forEach(key -> loader.getNamespace().put(key, resourceBundle.getString(key)));
+            loader.setResources(resourceBundle);
             @NotNull final N load = loader.load();
             @NotNull final C controller = loader.getController();
             return new FXMLPair<>(controller, load);
@@ -164,7 +164,7 @@ public final class ResourcesHelper {
         return Preconditions.checkNotNull(executeSafe(() -> {
             @NotNull final ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale);
             @NotNull final FXMLLoader loader = new FXMLLoader(url);
-            resourceBundle.keySet().forEach(key -> loader.getNamespace().put(key, resourceBundle.getString(key)));
+            loader.setResources(resourceBundle);
             return loader.load();
         }));
     }
