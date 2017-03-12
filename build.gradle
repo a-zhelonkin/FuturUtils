@@ -1,14 +1,17 @@
-apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
-group = 'com.github.alexm4q'
-version = 'master-SNAPSHOT'
+allprojects {
+    apply plugin: 'java'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+    group = 'com.github.alexm4q'
+    version = 'master-SNAPSHOT'
 
-compileJava.options.encoding = 'UTF-8'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    compileJava.options.encoding = 'UTF-8'
+}
 
 repositories {
     mavenCentral()
@@ -34,4 +37,12 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives sourcesJar
     archives javadocJar
+}
+
+jar {
+    manifest {
+        attributes 'Built-By': 'AlexM4Q',
+                'Built-Date': new Date(),
+                'Built-JDK': System.getProperty('java.version')
+    }
 }

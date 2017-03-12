@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Built-By: AlexM4Q
-Build-Jdk: 1.8.0_121
-Bundle-Version: 1.0.0
