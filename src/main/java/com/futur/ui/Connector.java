@@ -40,6 +40,11 @@ public final class Connector {
     }
 
     public static void setValueQuietFormatter(@NotNull final TextInputControl textInputControl,
+                                              @NotNull final Object value) {
+        setValueQuietFormatter(textInputControl, value.toString());
+    }
+
+    public static void setValueQuietFormatter(@NotNull final TextInputControl textInputControl,
                                               @NotNull final String value) {
         @Nullable final TextFormatter<?> textFormatter = textInputControl.getTextFormatter();
         textInputControl.setTextFormatter(null);
