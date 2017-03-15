@@ -67,10 +67,21 @@ public final class FormatterHelper {
                             if (decimalFormat != null) {
                                 c.setText(String.format(decimalFormat, number.doubleValue()));
                             }
+                            if (number.intValue() == number.doubleValue()) {
+                                c.setText(String.valueOf(number.intValue()));
+                            }
                             return c;
                         }
                     }
             );
+        }
+    }
+
+    public static void setNumeric(@NotNull TextInputControl textInputControl, @NotNull Number number) {
+        if (number.intValue() == number.doubleValue()) {
+            textInputControl.setText(String.valueOf(number.intValue()));
+        } else {
+            textInputControl.setText(String.valueOf(number));
         }
     }
 
