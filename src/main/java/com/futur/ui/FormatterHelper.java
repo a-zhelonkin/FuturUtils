@@ -75,11 +75,7 @@ public final class FormatterHelper {
     }
 
     public static void setNumeric(@NotNull TextInputControl textInputControl, @NotNull Number number) {
-        if (number.intValue() == number.doubleValue()) {
-            textInputControl.setText(String.valueOf(number.intValue()));
-        } else {
-            textInputControl.setText(String.valueOf(number));
-        }
+        textInputControl.setText(StringHelper.numberToString(number));
     }
 
 }
