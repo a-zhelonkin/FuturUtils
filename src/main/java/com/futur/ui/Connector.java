@@ -31,7 +31,7 @@ public final class Connector {
                                                          @NotNull final Consumer<T> consumer,
                                                          @NotNull final Function<String, T> function) {
         textInputControl.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!Strings.isNullOrEmpty(newValue)) {
+            if (!Strings.isNullOrEmpty(newValue) && textInputControl.isFocused()) {
                 executeSafe(() -> consumer.accept(function.apply(newValue)));
             }
         });
