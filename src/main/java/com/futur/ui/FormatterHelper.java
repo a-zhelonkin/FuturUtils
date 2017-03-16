@@ -67,9 +67,6 @@ public final class FormatterHelper {
                             if (decimalFormat != null) {
                                 c.setText(String.format(decimalFormat, number.doubleValue()));
                             }
-                            if (number.intValue() == number.doubleValue()) {
-                                c.setText(String.valueOf(number.intValue()));
-                            }
                             return c;
                         }
                     }
