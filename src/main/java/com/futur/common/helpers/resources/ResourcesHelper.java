@@ -161,8 +161,13 @@ public final class ResourcesHelper {
     public static <T> T loadNode(@NotNull final URL url,
                                  @NotNull final String bundleName,
                                  @NotNull final Locale locale) {
+        return loadNode(url, ResourceBundle.getBundle(bundleName, locale));
+    }
+
+    @NotNull
+    public static <T> T loadNode(@NotNull final URL url,
+                                 @NotNull final ResourceBundle resourceBundle) {
         return Preconditions.checkNotNull(executeSafe(() -> {
-            @NotNull final ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale);
             @NotNull final FXMLLoader loader = new FXMLLoader(url);
             loader.setResources(resourceBundle);
             return loader.load();
