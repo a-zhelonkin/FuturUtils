@@ -1,7 +1,6 @@
 package com.futur.common.helpers.resources;
 
 import com.futur.common.annotations.PrepareURL;
-import com.futur.common.helpers.StringHelper;
 import com.futur.common.models.FXMLPair;
 import com.futur.common.models.URLFile;
 import com.google.common.base.Preconditions;
@@ -26,7 +25,7 @@ import static com.futur.common.helpers.DevelopmentHelper.executeSafe;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @SuppressWarnings("unused")
-public final class ResourcesHelper {
+public abstract class ResourcesHelper {
 
     @NotNull
     private static final Logger LOG = LoggerFactory.getLogger(ResourcesHelper.class);
@@ -44,11 +43,7 @@ public final class ResourcesHelper {
             "../res/",
             "externalResources/");
 
-    private ResourcesHelper() {
-        StringHelper.throwNonInitializeable();
-    }
-
-    public static void checkURL(@NotNull final Class<?> clazz) {
+    protected static void checkURL(@NotNull final Class<?> clazz) {
         @NotNull final Field[] fields = clazz.getFields();
         for (@NotNull final Field field : fields) {
             if (field.isAnnotationPresent(PrepareURL.class)) {
@@ -63,7 +58,7 @@ public final class ResourcesHelper {
 
     @SuppressWarnings("ConstantConditions")
     @NotNull
-    public static URL getInternalUrl(@NotNull final String resourceName) {
+    protected static URL getInternalUrl(@NotNull final String resourceName) {
         return checkNotNull(((Supplier<URL>) () -> {
             for (@NotNull final String location : internalLocations) {
                 @Nullable final URL url = classLoader.getResource(location + resourceName);
@@ -80,15 +75,15 @@ public final class ResourcesHelper {
 
     @SuppressWarnings("ConstantConditions")
     @NotNull
-    public static URL getExternalUrl(@NotNull final String resourceName,
-                                     @NotNull final Class resourceLocator) {
+    protected static URL getExternalUrl(@NotNull final String resourceName,
+                                        @NotNull final Class resourceLocator) {
         return checkNotNull(getExternalUrlFile(resourceName, resourceLocator).getUrl());
     }
 
     @SuppressWarnings("ConstantConditions")
     @NotNull
-    public static URLFile getExternalUrlFile(@NotNull final String resourceName,
-                                             @NotNull final Class resourceLocator) {
+    protected static URLFile getExternalUrlFile(@NotNull final String resourceName,
+                                                @NotNull final Class resourceLocator) {
         return checkNotNull(((Supplier<URLFile>) () -> {
             @Nullable final File resourceFile = findExternalResourceFile(resourceName, resourceLocator);
 
