@@ -39,7 +39,7 @@ public final class ResourcesHelper {
 
     @NotNull
     private static final ImmutableList<String> externalLocations = ImmutableList.of(
-            "",
+            "1",
             "resources/",
             "../res/",
             "externalResources/");
