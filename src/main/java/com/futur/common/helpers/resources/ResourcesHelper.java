@@ -1,6 +1,7 @@
 package com.futur.common.helpers.resources;
 
 import com.futur.common.annotations.PrepareURL;
+import com.futur.common.helpers.StringHelper;
 import com.futur.common.models.FXMLPair;
 import com.futur.common.models.URLFile;
 import com.google.common.base.Preconditions;
@@ -25,7 +26,7 @@ import static com.futur.common.helpers.DevelopmentHelper.executeSafe;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @SuppressWarnings("unused")
-public abstract class ResourcesHelper {
+public final class ResourcesHelper {
 
     @NotNull
     private static final Logger LOG = LoggerFactory.getLogger(ResourcesHelper.class);
@@ -42,6 +43,10 @@ public abstract class ResourcesHelper {
             "resources/",
             "../res/",
             "externalResources/");
+
+    private ResourcesHelper() {
+        StringHelper.throwNonInitializeable();
+    }
 
     public static void checkURL(@NotNull final Class<?> clazz) {
         @NotNull final Field[] fields = clazz.getFields();
