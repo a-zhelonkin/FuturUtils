@@ -3,7 +3,9 @@ package com.futur.common.helpers.resources;
 import com.futur.common.annotations.PrepareURL;
 import com.futur.common.helpers.StringHelper;
 import com.futur.common.models.FXMLPair;
+import com.futur.common.models.URLFile;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 import javafx.fxml.FXMLLoader;
 import org.jetbrains.annotations.NotNull;
@@ -48,11 +50,11 @@ public final class ResourcesHelper {
 
     public static void checkURL(@NotNull final Class<?> clazz) {
         @NotNull final Field[] fields = clazz.getFields();
-        for (@NotNull Field field : fields) {
+        for (@NotNull final Field field : fields) {
             if (field.isAnnotationPresent(PrepareURL.class)) {
                 try {
-                    field.get(null);
-                } catch (IllegalAccessException e) {
+                    Preconditions.checkNotNull(field.get(null));
+                } catch (Throwable e) {
                     LOG.error(e.getCause().toString());
                 }
             }
@@ -62,40 +64,43 @@ public final class ResourcesHelper {
     @SuppressWarnings("ConstantConditions")
     @NotNull
     public static URL getInternalUrl(@NotNull final String resourceName) {
-        return checkNotNull(findUrl(resourceName), "Not founded resourceName = " + resourceName);
-    }
-
-    @Nullable
-    private static URL findUrl(@NotNull final String resourceName) {
-        for (@NotNull String location : internalLocations) {
-            @Nullable final URL url = classLoader.getResource(location + resourceName);
-            if (url != null) {
-                LOG.debug("Internal resource founded: {}", url);
-                return url;
+        return checkNotNull(((Supplier<URL>) () -> {
+            for (@NotNull final String location : internalLocations) {
+                @Nullable final URL url = classLoader.getResource(location + resourceName);
+                if (url != null) {
+                    LOG.debug("Internal resource founded: {}", url);
+                    return url;
+                }
             }
-        }
 
-        LOG.info("Internal resource not founded: {}", resourceName);
-        return null;
+            LOG.info("Internal resource not founded: {}", resourceName);
+            return null;
+        }).get(), "Not founded resourceName = " + resourceName);
     }
 
     @SuppressWarnings("ConstantConditions")
     @NotNull
     public static URL getExternalUrl(@NotNull final String resourceName,
                                      @NotNull final Class resourceLocator) {
-        return checkNotNull(findExternalUrl(resourceName, resourceLocator));
+        return checkNotNull(getExternalUrlFile(resourceName, resourceLocator).getUrl());
     }
 
-    @Nullable
-    private static URL findExternalUrl(@NotNull final String resourceName,
-                                       @NotNull final Class resourceLocator) {
-        @Nullable final File resourceFile = findExternalResourceFile(resourceName, resourceLocator);
+    @SuppressWarnings("ConstantConditions")
+    @NotNull
+    public static URLFile getExternalUrlFile(@NotNull final String resourceName,
+                                             @NotNull final Class resourceLocator) {
+        return checkNotNull(((Supplier<URLFile>) () -> {
+            @Nullable final File resourceFile = findExternalResourceFile(resourceName, resourceLocator);
 
-        if (resourceFile == null) {
-            return null;
-        } else {
-            return executeSafe(() -> new URL("file", "", -1, resourceFile.getAbsolutePath()));
-        }
+            if (resourceFile == null) {
+                return null;
+            } else {
+                return executeSafe(() -> {
+                    @NotNull final URL url = new URL("file", "", -1, resourceFile.getAbsolutePath());
+                    return new URLFile(url, resourceFile);
+                });
+            }
+        }).get());
     }
 
     @Nullable

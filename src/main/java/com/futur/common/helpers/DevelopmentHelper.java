@@ -24,7 +24,7 @@ public final class DevelopmentHelper {
      *
      * @param unsafe Небезопасная операция.
      */
-    public static void executeSafe(@NotNull ThrowableUnsafeAction unsafe) {
+    public static void executeSafe(@NotNull final ThrowableUnsafeAction unsafe) {
         try {
             unsafe.doAction();
         } catch (Throwable e) {
@@ -42,7 +42,7 @@ public final class DevelopmentHelper {
      * @return type
      */
     @Nullable
-    public static <T> T executeSafe(@NotNull ThrowableUnsafeFunction<T> unsafe) {
+    public static <T> T executeSafe(@NotNull final ThrowableUnsafeFunction<T> unsafe) {
         try {
             return unsafe.doAction();
         } catch (Throwable e) {
