@@ -43,7 +43,7 @@ public abstract class ResourcesHelper {
             "../res/",
             "externalResources/");
 
-    protected static void checkURL(@NotNull final Class<?> clazz) {
+    public static void checkURL(@NotNull final Class<?> clazz) {
         @NotNull final Field[] fields = clazz.getFields();
         for (@NotNull final Field field : fields) {
             if (field.isAnnotationPresent(PrepareURL.class)) {
@@ -58,7 +58,7 @@ public abstract class ResourcesHelper {
 
     @SuppressWarnings("ConstantConditions")
     @NotNull
-    protected static URL getInternalUrl(@NotNull final String resourceName) {
+    public static URL getInternalUrl(@NotNull final String resourceName) {
         return checkNotNull(((Supplier<URL>) () -> {
             for (@NotNull final String location : internalLocations) {
                 @Nullable final URL url = classLoader.getResource(location + resourceName);
@@ -75,15 +75,15 @@ public abstract class ResourcesHelper {
 
     @SuppressWarnings("ConstantConditions")
     @NotNull
-    protected static URL getExternalUrl(@NotNull final String resourceName,
-                                        @NotNull final Class resourceLocator) {
+    public static URL getExternalUrl(@NotNull final String resourceName,
+                                     @NotNull final Class resourceLocator) {
         return checkNotNull(getExternalUrlFile(resourceName, resourceLocator).getUrl());
     }
 
     @SuppressWarnings("ConstantConditions")
     @NotNull
-    protected static URLFile getExternalUrlFile(@NotNull final String resourceName,
-                                                @NotNull final Class resourceLocator) {
+    public static URLFile getExternalUrlFile(@NotNull final String resourceName,
+                                             @NotNull final Class resourceLocator) {
         return checkNotNull(((Supplier<URLFile>) () -> {
             @Nullable final File resourceFile = findExternalResourceFile(resourceName, resourceLocator);
 
