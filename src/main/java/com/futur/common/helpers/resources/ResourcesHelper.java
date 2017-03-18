@@ -2,7 +2,6 @@ package com.futur.common.helpers.resources;
 
 import com.futur.common.annotations.PrepareURL;
 import com.futur.common.helpers.StringHelper;
-import com.futur.common.models.URLFile;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.jetbrains.annotations.NotNull;
@@ -92,28 +91,6 @@ public final class ResourcesHelper {
             return null;
         } else {
             return executeSafe(() -> new URL("file", "", -1, resourceFile.getAbsolutePath()));
-        }
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    @NotNull
-    public static URLFile getExternalUrlFile(@NotNull final String resourceName,
-                                             @NotNull final Class resourceLocator) {
-        return checkNotNull(findExternalUrlFile(resourceName, resourceLocator));
-    }
-
-    @Nullable
-    public static URLFile findExternalUrlFile(@NotNull final String resourceName,
-                                              @NotNull final Class resourceLocator) {
-        @Nullable final File resourceFile = findExternalResourceFile(resourceName, resourceLocator);
-
-        if (resourceFile == null) {
-            return null;
-        } else {
-            return executeSafe(() -> {
-                @NotNull final URL url = new URL("file", "", -1, resourceFile.getAbsolutePath());
-                return new URLFile(url, resourceFile);
-            });
         }
     }
 
