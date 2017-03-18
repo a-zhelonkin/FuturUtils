@@ -10,8 +10,8 @@ import org.junit.Test;
 import java.net.URL;
 import java.util.Locale;
 
+import static com.futur.common.helpers.resources.FXMLHelper.loadNode;
 import static com.futur.common.helpers.resources.ResourcesHelper.getInternalUrl;
-import static com.futur.common.helpers.resources.ResourcesHelper.loadNode;
 
 public class ResourcesHelperTest extends Application {
 
