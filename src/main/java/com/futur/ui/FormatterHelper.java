@@ -80,6 +80,11 @@ public final class FormatterHelper {
     }
 
     @NotNull
+    public static Double getNumeric(@NotNull final TextInputControl textInputControl) {
+        return getNumeric(textInputControl, Double::valueOf);
+    }
+
+    @NotNull
     public static <T extends Number> T getNumeric(@NotNull final TextInputControl textInputControl,
                                                   @NotNull final Function<String, T> function) {
         return function.apply(textInputControl.getText());
