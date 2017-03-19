@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParsePosition;
+import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public final class FormatterHelper {
@@ -76,6 +77,23 @@ public final class FormatterHelper {
 
     public static void setNumeric(@NotNull TextInputControl textInputControl, @NotNull Number number) {
         textInputControl.setText(StringHelper.numberToString(number));
+    }
+
+    @NotNull
+    public static <T extends Number> T getNumeric(@NotNull final TextInputControl textInputControl,
+                                                  @NotNull final Function<String, T> function) {
+        return function.apply(textInputControl.getText());
+    }
+
+    @NotNull
+    public static <T extends Number> T getNumeric(@NotNull final TextInputControl textInputControl,
+                                                  @NotNull final Function<String, T> function,
+                                                  @NotNull final T defaultValue) {
+        try {
+            return function.apply(textInputControl.getText());
+        } catch (Exception e) {
+            return defaultValue;
+        }
     }
 
 }
