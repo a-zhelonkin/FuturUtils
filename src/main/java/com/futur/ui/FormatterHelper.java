@@ -91,11 +91,17 @@ public final class FormatterHelper {
     }
 
     @NotNull
+    public static Double getNumeric(@NotNull final TextInputControl textInputControl,
+                                    @NotNull final Double defaultValue) {
+        return getNumeric(textInputControl, Double::valueOf, defaultValue);
+    }
+
+    @NotNull
     public static <T extends Number> T getNumeric(@NotNull final TextInputControl textInputControl,
                                                   @NotNull final Function<String, T> function,
                                                   @NotNull final T defaultValue) {
         try {
-            return function.apply(textInputControl.getText());
+            return getNumeric(textInputControl, function);
         } catch (Exception e) {
             return defaultValue;
         }
