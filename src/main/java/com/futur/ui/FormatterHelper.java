@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParsePosition;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 @SuppressWarnings("unused")
@@ -104,6 +105,27 @@ public final class FormatterHelper {
             return getNumeric(textInputControl, function);
         } catch (Exception e) {
             return defaultValue;
+        }
+    }
+
+    public static void getIntegerNumeric(@NotNull final TextInputControl textInputControl,
+                                         @NotNull final Consumer<Integer> setter) {
+        getNumeric(textInputControl, setter, Integer::valueOf);
+    }
+
+    public static void getDoubleNumeric(@NotNull final TextInputControl textInputControl,
+                                        @NotNull final Consumer<Double> setter) {
+        getNumeric(textInputControl, setter, Double::valueOf);
+    }
+
+    public static <T extends Number> void getNumeric(@NotNull final TextInputControl textInputControl,
+                                                     @NotNull final Consumer<T> setter,
+                                                     @NotNull final Function<String, T> function) {
+        @NotNull final T numeric;
+        try {
+            setter.accept(getNumeric(textInputControl, function));
+        } catch (Exception ignored) {
+
         }
     }
 
