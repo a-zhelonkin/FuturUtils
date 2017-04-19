@@ -7,6 +7,9 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 @SuppressWarnings("unused")
 public final class DevelopmentHelper {
 
@@ -38,7 +41,7 @@ public final class DevelopmentHelper {
      * выводом в лог
      *
      * @param unsafe Небезопасная Функция.
-     * @param <T> type
+     * @param <T>    type
      * @return type
      */
     @Nullable
@@ -50,6 +53,17 @@ public final class DevelopmentHelper {
         }
 
         return null;
+    }
+
+    public static <T> void ifNotNull(@Nullable final T t, @NotNull final Consumer<T> consumer) {
+        if (t != null) {
+            consumer.accept(t);
+        }
+    }
+
+    @Nullable
+    public static <T, R> R ifNotNull(@Nullable final T t, @NotNull final Function<T, R> function) {
+        return t == null ? null : function.apply(t);
     }
 
 }

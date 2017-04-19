@@ -3,6 +3,7 @@ package com.futur.ui;
 import com.futur.common.helpers.StringHelper;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextInputControl;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -91,9 +92,9 @@ public final class FormatterHelper {
         return function.apply(textInputControl.getText());
     }
 
-    @NotNull
+    @Contract("_, !null -> !null")
     public static Double getNumeric(@NotNull final TextInputControl textInputControl,
-                                    @NotNull final Double defaultValue) {
+                                    @Nullable final Double defaultValue) {
         return getNumeric(textInputControl, Double::valueOf, defaultValue);
     }
 
