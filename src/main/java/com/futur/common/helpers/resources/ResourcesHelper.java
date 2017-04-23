@@ -110,6 +110,14 @@ public final class ResourcesHelper {
         return null;
     }
 
+    @SuppressWarnings("ConstantConditions")
+    @NotNull
+    public static URL getExternalUrl(@NotNull final String location,
+                                     @NotNull final String resourceName,
+                                     @NotNull final Class resourceLocator) {
+        return checkNotNull(findExternalUrl(location, resourceName, resourceLocator));
+    }
+
     @Nullable
     public static URL findExternalUrl(@NotNull final String location,
                                       @NotNull final String resourceName,
@@ -118,7 +126,6 @@ public final class ResourcesHelper {
 
         return DevelopmentHelper.ifNotNull(resourceFile, ResourcesHelper::wrapFile);
     }
-
 
     @Nullable
     private static File findExternalResourceFile(@NotNull final String location,
