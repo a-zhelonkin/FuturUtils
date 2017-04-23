@@ -92,15 +92,6 @@ public final class ResourcesHelper {
     }
 
     @Nullable
-    public static URL findExternalUrl(@NotNull final String resourceName,
-                                      @NotNull final String location,
-                                      @NotNull final Class resourceLocator) {
-        @Nullable final File resourceFile = findExternalResourceFile(location, resourceName, resourceLocator);
-
-        return DevelopmentHelper.ifNotNull(resourceFile, ResourcesHelper::wrapFile);
-    }
-
-    @Nullable
     private static File findExternalResourceFile(@NotNull final String resourceName,
                                                  @NotNull final Class resourceLocator) {
         @Nullable final Path basePath = findBaseExternalLocation(resourceLocator);
@@ -117,6 +108,15 @@ public final class ResourcesHelper {
 
         LOG.info("External resource not founded: {}", resourceName);
         return null;
+    }
+
+    @Nullable
+    public static URL findExternalUrl(@NotNull final String location,
+                                      @NotNull final String resourceName,
+                                      @NotNull final Class resourceLocator) {
+        @Nullable final File resourceFile = findExternalResourceFile(location, resourceName, resourceLocator);
+
+        return DevelopmentHelper.ifNotNull(resourceFile, ResourcesHelper::wrapFile);
     }
 
 
