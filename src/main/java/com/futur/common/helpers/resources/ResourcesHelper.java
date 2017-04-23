@@ -1,6 +1,7 @@
 package com.futur.common.helpers.resources;
 
 import com.futur.common.annotations.PrepareURL;
+import com.futur.common.helpers.DevelopmentHelper;
 import com.futur.common.helpers.StringHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -87,11 +88,16 @@ public final class ResourcesHelper {
                                       @NotNull final Class resourceLocator) {
         @Nullable final File resourceFile = findExternalResourceFile(resourceName, resourceLocator);
 
-        if (resourceFile == null) {
-            return null;
-        } else {
-            return executeSafe(() -> new URL("file", "", -1, resourceFile.getAbsolutePath()));
-        }
+        return DevelopmentHelper.ifNotNull(resourceFile, ResourcesHelper::wrapFile);
+    }
+
+    @Nullable
+    public static URL findExternalUrl(@NotNull final String resourceName,
+                                      @NotNull final String location,
+                                      @NotNull final Class resourceLocator) {
+        @Nullable final File resourceFile = findExternalResourceFile(location, resourceName, resourceLocator);
+
+        return DevelopmentHelper.ifNotNull(resourceFile, ResourcesHelper::wrapFile);
     }
 
     @Nullable
@@ -111,6 +117,30 @@ public final class ResourcesHelper {
 
         LOG.info("External resource not founded: {}", resourceName);
         return null;
+    }
+
+
+    @Nullable
+    private static File findExternalResourceFile(@NotNull final String location,
+                                                 @NotNull final String resourceName,
+                                                 @NotNull final Class resourceLocator) {
+        @Nullable final Path basePath = findBaseExternalLocation(resourceLocator);
+
+        if (basePath != null) {
+            @NotNull final File file = basePath.resolve(location).resolve(resourceName).normalize().toFile();
+            if (file.exists()) {
+                LOG.info("External resource founded: {}", file);
+                return file;
+            }
+        }
+
+        LOG.info("External resource not founded: {}", resourceName);
+        return null;
+    }
+
+    @Nullable
+    private static URL wrapFile(@NotNull final File file) {
+        return executeSafe(() -> new URL("file", "", -1, file.getAbsolutePath()));
     }
 
     @Nullable
