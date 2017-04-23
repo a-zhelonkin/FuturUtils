@@ -37,7 +37,8 @@ public final class ResourcesHelper {
             "",
             "resources/",
             "../res/",
-            "externalResources/"
+            "externalResources/",
+            "libs/"
     );
 
     private ResourcesHelper() {
@@ -103,41 +104,6 @@ public final class ResourcesHelper {
                     LOG.info("External resource founded: {}", file);
                     return file;
                 }
-            }
-        }
-
-        LOG.info("External resource not founded: {}", resourceName);
-        return null;
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    @NotNull
-    public static URL getExternalUrl(@NotNull final String location,
-                                     @NotNull final String resourceName,
-                                     @NotNull final Class resourceLocator) {
-        return checkNotNull(findExternalUrl(location, resourceName, resourceLocator));
-    }
-
-    @Nullable
-    public static URL findExternalUrl(@NotNull final String location,
-                                      @NotNull final String resourceName,
-                                      @NotNull final Class resourceLocator) {
-        @Nullable final File resourceFile = findExternalResourceFile(location, resourceName, resourceLocator);
-
-        return DevelopmentHelper.ifNotNull(resourceFile, ResourcesHelper::wrapFile);
-    }
-
-    @Nullable
-    private static File findExternalResourceFile(@NotNull final String location,
-                                                 @NotNull final String resourceName,
-                                                 @NotNull final Class resourceLocator) {
-        @Nullable final Path basePath = findBaseExternalLocation(resourceLocator);
-
-        if (basePath != null) {
-            @NotNull final File file = basePath.resolve(location).resolve(resourceName).normalize().toFile();
-            if (file.exists()) {
-                LOG.info("External resource founded: {}", file);
-                return file;
             }
         }
 
