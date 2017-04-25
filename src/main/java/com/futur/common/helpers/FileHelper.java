@@ -25,13 +25,17 @@ public final class FileHelper {
 
     @NotNull
     public static String getFileExtension(@NotNull final File file) {
-        @NotNull final String fileName = file.getName();
-        final int indexOf = fileName.lastIndexOf(".");
+        return getFileExtension(file.getName());
+    }
+
+    @NotNull
+    public static String getFileExtension(@NotNull final String path) {
+        final int indexOf = path.lastIndexOf(".");
 
         if (indexOf == -1 || indexOf == 0) {
             return "";
         } else {
-            return fileName.substring(indexOf);
+            return path.substring(indexOf);
         }
     }
 
