@@ -110,4 +110,8 @@ public final class Inspections {
         return number == null || number == 0;
     }
 
+    public static boolean isNullOrEmpty(@Nullable final double[][] doubles) {
+        return doubles == null || doubles.length == 0;
+    }
+
 }
