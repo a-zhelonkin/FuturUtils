@@ -49,10 +49,13 @@ public final class ResourcesHelper {
         @NotNull final Field[] fields = clazz.getFields();
         for (@NotNull final Field field : fields) {
             if (field.isAnnotationPresent(PrepareURL.class)) {
-                try {
-                    Preconditions.checkNotNull(field.get(null));
-                } catch (Throwable e) {
-                    LOG.error(e.getCause().toString());
+                @NotNull final PrepareURL annotation = field.getAnnotation(PrepareURL.class);
+                if (annotation.required()) {
+                    try {
+                        Preconditions.checkNotNull(field.get(null));
+                    } catch (Throwable e) {
+                        LOG.error(e.getCause().toString());
+                    }
                 }
             }
         }
