@@ -1,6 +1,7 @@
 package com.futur.ui;
 
 import com.futur.common.helpers.StringHelper;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextInputControl;
 import org.jetbrains.annotations.Contract;
@@ -77,7 +78,11 @@ public final class FormatterHelper {
         }
     }
 
-    public static void setNumeric(@NotNull TextInputControl textInputControl, @NotNull Number number) {
+    public static void setNumeric(@NotNull final Labeled labeled, @NotNull final Number number) {
+        labeled.setText(StringHelper.numberToString(number));
+    }
+
+    public static void setNumeric(@NotNull final TextInputControl textInputControl, @NotNull final Number number) {
         textInputControl.setText(StringHelper.numberToString(number));
     }
 
