@@ -3,5 +3,5 @@
 
 |Модуль                     |Описание
 |:--------------------------|:-
-|ui                         |Вспомогательные классы контролов интерфейса
-|common                     |Вспомогательные классы математики, работы со строками, файлами, ресурсами и т.д.
+|<a href="https://github.com/AlexM4Q/FuturUtils/tree/master/src/main/java/com/futur/ui">ui</a>          |Вспомогательные классы контролов интерфейса
+|<a href="https://github.com/AlexM4Q/FuturUtils/tree/master/src/main/java/com/futur/common">common</a>  |Вспомогательные классы математики, работы со строками, файлами, ресурсами и т.д.
