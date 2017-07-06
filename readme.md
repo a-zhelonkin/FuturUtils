@@ -10,6 +10,11 @@
 ## Подключение
 Прописать в build.gradle следующее
 ```
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
 dependencies {
     compile('com.github.alexm4q:futurutils:master-SNAPSHOT') { changing = true }
 }
