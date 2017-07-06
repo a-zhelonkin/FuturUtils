@@ -15,6 +15,7 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 }
+
 dependencies {
     compile('com.github.alexm4q:futurutils:master-SNAPSHOT') { changing = true }
 }
