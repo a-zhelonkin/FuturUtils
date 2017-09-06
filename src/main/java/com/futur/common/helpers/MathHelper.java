@@ -2,6 +2,7 @@ package com.futur.common.helpers;
 
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("unused")
 public final class MathHelper {
 
     @NotNull

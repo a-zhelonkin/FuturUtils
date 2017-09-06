@@ -3,6 +3,7 @@ package com.futur.common.helpers;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("unused")
 public final class StringHelper {
 
     public StringHelper() {
@@ -16,7 +17,7 @@ public final class StringHelper {
 
     @NotNull
     public static String numberToString(@NotNull final Number number) {
-       return String.valueOf(MathHelper.simpleDouble(number));
+        return String.valueOf(MathHelper.simpleDouble(number));
     }
 
 }
