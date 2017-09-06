@@ -40,9 +40,9 @@ public final class LogInitializer {
             @NotNull final String absoluteFolderPath = folderPath.toAbsolutePath().toString();
             @NotNull final String logFilePath = absoluteFolderPath + File.separator + fileName;
 
-            LOG.info("Path to log {}", logFilePath);
-
             System.setProperty(propertyName, logFilePath);
+
+            LOG.info("Path to log {}", logFilePath);
 
             @NotNull final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
             @NotNull final ContextInitializer contextInitializer = new ContextInitializer(loggerContext);
