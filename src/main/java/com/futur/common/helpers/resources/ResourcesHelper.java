@@ -68,11 +68,12 @@ public final class ResourcesHelper {
         for (@NotNull val location : internalLocations) {
             @Nullable val url = classLoader.getResource(location + resourceName);
             if (url != null) {
-                log.debug("Internal resource founded: {}", url);
+                log.info("Internal resource founded: {}", url);
                 return url;
             }
         }
 
+        log.info("Internal resource not founded: {}", resourceName);
         return null;
     }
 
