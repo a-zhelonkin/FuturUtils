@@ -77,4 +77,24 @@ public final class FileHelper {
         return files;
     }
 
+    private static long folderSize(@NotNull final File directory) {
+        @Nullable val files = listFiles(directory);
+        if (files == null) {
+            return 0;
+        }
+
+        long length = 0;
+        for (@Nullable val file : files) {
+            if (file != null) {
+                if (file.isFile()) {
+                    length += file.length();
+                } else {
+                    length += folderSize(file);
+                }
+            }
+        }
+
+        return length;
+    }
+
 }
