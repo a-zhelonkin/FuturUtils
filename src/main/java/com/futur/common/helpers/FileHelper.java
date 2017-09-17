@@ -53,4 +53,28 @@ public final class FileHelper {
         return path.substring(0, path.lastIndexOf("\\"));
     }
 
+    @Nullable
+    public static File[] listFiles(@NotNull final String file) {
+        return listFiles(new File(file));
+    }
+
+    @Nullable
+    public static File[] listFiles(@NotNull final File file) {
+        if (!file.exists()) {
+            return null;
+        }
+
+        if (!file.isDirectory()) {
+            return null;
+        }
+
+        @Nullable final File[] files = file.listFiles();
+
+        if (files == null || files.length == 0) {
+            return null;
+        }
+
+        return files;
+    }
+
 }
