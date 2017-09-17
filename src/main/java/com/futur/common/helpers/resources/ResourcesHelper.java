@@ -5,26 +5,22 @@ import com.futur.common.helpers.DevelopmentHelper;
 import com.futur.common.helpers.StringHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.CodeSource;
 
 import static com.futur.common.helpers.DevelopmentHelper.executeSafe;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+@Slf4j
 @SuppressWarnings("unused")
 public final class ResourcesHelper {
-
-    @NotNull
-    private static final Logger LOG = LoggerFactory.getLogger(ResourcesHelper.class);
 
     @NotNull
     private static final ClassLoader classLoader = ResourcesHelper.class.getClassLoader();
@@ -46,15 +42,15 @@ public final class ResourcesHelper {
     }
 
     public static void checkURL(@NotNull final Class<?> clazz) {
-        @NotNull final Field[] fields = clazz.getFields();
-        for (@NotNull final Field field : fields) {
+        @NotNull val fields = clazz.getFields();
+        for (@NotNull val field : fields) {
             if (field.isAnnotationPresent(PrepareURL.class)) {
-                @NotNull final PrepareURL annotation = field.getAnnotation(PrepareURL.class);
+                @NotNull val annotation = field.getAnnotation(PrepareURL.class);
                 if (annotation.required()) {
                     try {
                         Preconditions.checkNotNull(field.get(null));
                     } catch (Throwable e) {
-                        LOG.error(e.getCause().toString());
+                        log.error(e.getCause().toString());
                     }
                 }
             }
@@ -69,10 +65,10 @@ public final class ResourcesHelper {
 
     @Nullable
     private static URL findInternalUrl(@NotNull final String resourceName) {
-        for (@NotNull final String location : internalLocations) {
-            @Nullable final URL url = classLoader.getResource(location + resourceName);
+        for (@NotNull val location : internalLocations) {
+            @Nullable val url = classLoader.getResource(location + resourceName);
             if (url != null) {
-                LOG.debug("Internal resource founded: {}", url);
+                log.debug("Internal resource founded: {}", url);
                 return url;
             }
         }
@@ -98,19 +94,19 @@ public final class ResourcesHelper {
     @Nullable
     private static File findExternalResourceFile(@NotNull final String resourceName,
                                                  @NotNull final Class resourceLocator) {
-        @Nullable final Path basePath = findBaseExternalLocation(resourceLocator);
+        @Nullable val basePath = findBaseExternalLocation(resourceLocator);
 
         if (basePath != null) {
-            for (String location : externalLocations) {
-                @NotNull final File file = basePath.resolve(location).resolve(resourceName).normalize().toFile();
+            for (@NotNull val location : externalLocations) {
+                @NotNull val file = basePath.resolve(location).resolve(resourceName).normalize().toFile();
                 if (file.exists()) {
-                    LOG.info("External resource founded: {}", file);
+                    log.info("External resource founded: {}", file);
                     return file;
                 }
             }
         }
 
-        LOG.info("External resource not founded: {}", resourceName);
+        log.info("External resource not founded: {}", resourceName);
         return null;
     }
 
@@ -121,7 +117,7 @@ public final class ResourcesHelper {
 
     @Nullable
     private static Path findBaseExternalLocation(@NotNull final Class resourceLocator) {
-        @Nullable final CodeSource codeSource = resourceLocator.getProtectionDomain().getCodeSource();
+        @Nullable val codeSource = resourceLocator.getProtectionDomain().getCodeSource();
 
         if (codeSource == null) {
             return null;

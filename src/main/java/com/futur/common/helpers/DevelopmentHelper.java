@@ -2,19 +2,16 @@ package com.futur.common.helpers;
 
 import com.futur.common.interfaces.ThrowableUnsafeAction;
 import com.futur.common.interfaces.ThrowableUnsafeFunction;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 @SuppressWarnings("unused")
+@Slf4j
 public final class DevelopmentHelper {
-
-    @NotNull
-    private static final Logger LOG = LoggerFactory.getLogger(DevelopmentHelper.class);
 
     public DevelopmentHelper() {
         StringHelper.throwNonInitializeable();
@@ -31,7 +28,7 @@ public final class DevelopmentHelper {
         try {
             unsafe.doAction();
         } catch (Throwable e) {
-            LOG.error("Exception during executeSafe", e);
+            log.error("Exception during executeSafe", e);
         }
     }
 
@@ -49,7 +46,7 @@ public final class DevelopmentHelper {
         try {
             return unsafe.doAction();
         } catch (Throwable e) {
-            LOG.error("Exception during executeSafe", e);
+            log.error("Exception during executeSafe", e);
         }
 
         return null;

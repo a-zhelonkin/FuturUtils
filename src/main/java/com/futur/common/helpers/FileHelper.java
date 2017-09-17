@@ -1,6 +1,7 @@
 package com.futur.common.helpers;
 
 import com.google.common.base.Strings;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +19,7 @@ public final class FileHelper {
             return false;
         }
 
-        @NotNull final File file = new File(path);
+        @NotNull val file = new File(path);
 
         return file.exists() && file.isFile();
     }
@@ -30,7 +31,7 @@ public final class FileHelper {
 
     @NotNull
     public static String getFileExtension(@NotNull final String path) {
-        final int indexOf = path.lastIndexOf(".");
+        val indexOf = path.lastIndexOf(".");
 
         if (indexOf == -1 || indexOf == 0) {
             return "";
@@ -41,17 +42,15 @@ public final class FileHelper {
 
     @NotNull
     public static String cutNameFromPath(@NotNull final String path) {
-        final int indexOfSlash = path.lastIndexOf("\\");
-        final int indexOfDot = path.indexOf(".");
+        val indexOfSlash = path.lastIndexOf("\\");
+        val indexOfDot = path.indexOf(".");
 
         return path.substring(indexOfSlash + 1, indexOfDot);
     }
 
     @NotNull
     public static String cutFolderFromPath(@NotNull final String path) {
-        final int indexOfSlash = path.lastIndexOf("\\");
-
-        return path.substring(0, indexOfSlash);
+        return path.substring(0, path.lastIndexOf("\\"));
     }
 
 }

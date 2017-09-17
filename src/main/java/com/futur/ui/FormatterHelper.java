@@ -4,6 +4,7 @@ import com.futur.common.helpers.StringHelper;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextInputControl;
+import lombok.val;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public final class FormatterHelper {
         StringHelper.throwNonInitializeable();
     }
 
-    public static void applyIntegerFormat(@NotNull TextInputControl textInputControl) {
+    public static void applyIntegerFormat(@NotNull final TextInputControl textInputControl) {
         textInputControl.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 textInputControl.setText(newValue.replaceAll("[^\\d]", ""));
@@ -29,11 +30,11 @@ public final class FormatterHelper {
         });
     }
 
-    public static void applyDoubleFormat(@NotNull TextInputControl textInputControl) {
+    public static void applyDoubleFormat(@NotNull final TextInputControl textInputControl) {
         textInputControl.setTextFormatter(new DoubleFormatter());
     }
 
-    public static void applyDoubleFormat(@NotNull TextInputControl textInputControl, int decimal) {
+    public static void applyDoubleFormat(@NotNull final TextInputControl textInputControl, int decimal) {
         textInputControl.setTextFormatter(new DoubleFormatter(decimal));
     }
 
@@ -43,7 +44,7 @@ public final class FormatterHelper {
         private static final DecimalFormat format;
 
         static {
-            @NotNull final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+            @NotNull val decimalFormatSymbols = new DecimalFormatSymbols();
             decimalFormatSymbols.setDecimalSeparator('.');
             format = new DecimalFormat("#.0", decimalFormatSymbols);
         }

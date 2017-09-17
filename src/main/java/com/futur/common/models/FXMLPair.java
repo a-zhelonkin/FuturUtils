@@ -24,4 +24,5 @@ public final class FXMLPair<C, N> {
     public N getNode() {
         return node;
     }
+
 }

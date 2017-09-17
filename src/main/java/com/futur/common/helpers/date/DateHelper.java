@@ -2,6 +2,7 @@ package com.futur.common.helpers.date;
 
 import com.futur.common.helpers.StringHelper;
 import com.google.common.collect.ImmutableSet;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.ZonedDateTime;
@@ -26,7 +27,7 @@ public final class DateHelper {
     public static final int CURRENT_DAY;
 
     static {
-        @NotNull GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        @NotNull val gregorianCalendar = new GregorianCalendar();
 
         CURRENT_YEAR = gregorianCalendar.get(Calendar.YEAR);
         CURRENT_MONTH = gregorianCalendar.get(Calendar.MONTH) + 1;

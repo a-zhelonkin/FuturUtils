@@ -18,7 +18,9 @@ repositories {
 }
 
 dependencies {
+    compileOnly 'org.projectlombok:lombok:1.16.18'
     testCompile 'junit:junit:4.12'
+    
     compile 'com.google.guava:guava:19.0'
     compile 'org.jetbrains:annotations:15.0'
     compile 'org.slf4j:slf4j-api:1.7.6'
