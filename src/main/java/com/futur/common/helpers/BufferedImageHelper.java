@@ -17,12 +17,27 @@ public final class BufferedImageHelper {
         StringHelper.throwNonInitializeable();
     }
 
+    /**
+     * Выносит массив байтов картинки
+     *
+     * @param image Картинка
+     * @return Массив байтов картинки
+     */
     @NotNull
-    public static byte[] toBytes(@NotNull final BufferedImage image) {
-        return getBytes(getUserSpace(image));
+    @Contract(pure = true)
+    private static byte[] getBytes(@NotNull final BufferedImage image) {
+        return ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
     }
 
+    /**
+     * Превращает массив байт в картинку
+     *
+     * @param bytes массив байт
+     * @return картинка
+     * @throws IOException мало ли что
+     */
     @NotNull
+    @Contract(pure = true)
     public static BufferedImage toImage(@NotNull final byte[] bytes) throws IOException {
         return ImageIO.read(new ByteArrayInputStream(bytes));
     }
@@ -35,7 +50,7 @@ public final class BufferedImageHelper {
      */
     @NotNull
     @Contract(pure = true)
-    private static BufferedImage getUserSpace(@NotNull final BufferedImage image) {
+    public static BufferedImage getUserSpace(@NotNull final BufferedImage image) {
         @NotNull final BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
         @NotNull final Graphics2D graphics = newImage.createGraphics();
 
@@ -43,18 +58,6 @@ public final class BufferedImageHelper {
         graphics.dispose();
 
         return newImage;
-    }
-
-    /**
-     * Выносит массив байтов картинки
-     *
-     * @param image Картинка
-     * @return Массив байтов картинки
-     */
-    @NotNull
-    @Contract(pure = true)
-    private static byte[] getBytes(@NotNull final BufferedImage image) {
-        return ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
     }
 
 }
