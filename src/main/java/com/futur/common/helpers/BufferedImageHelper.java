@@ -25,7 +25,7 @@ public final class BufferedImageHelper {
      */
     @NotNull
     @Contract(pure = true)
-    private static byte[] getBytes(@NotNull final BufferedImage image) {
+    public static byte[] toBytes(@NotNull final BufferedImage image) {
         return ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
     }
 
