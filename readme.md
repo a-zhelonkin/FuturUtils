@@ -29,7 +29,7 @@ configurations.all {
 
 
 ## Зависимости
-<a href="https://github.com/AlexM4Q/FuturUtils/blob/master/build.gradle">build.gradle</a>
+<a href="https://github.com/AlexM4Q/FuturUtils/blob/master/pom.xml">pom.xml</a>
 *****************************************************************************************
 <a href="https://github.com/google/guava/">Guava</a>
 <br/>
