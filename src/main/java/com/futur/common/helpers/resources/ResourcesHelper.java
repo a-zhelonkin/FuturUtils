@@ -117,13 +117,33 @@ public final class ResourcesHelper {
     }
 
     @Nullable
-    private static Path findBaseExternalLocation(@NotNull final Class resourceLocator) {
-        @Nullable val codeSource = resourceLocator.getProtectionDomain().getCodeSource();
+    private static Path findBaseExternalLocation(@NotNull final Class clazz) {
+        try {
+            return Paths.get(clazz.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
+        } catch (Throwable e) {
+            @NotNull val url = clazz.getResource(clazz.getSimpleName() + ".class");
+            @NotNull String path = url.getPath();
 
-        if (codeSource == null) {
-            return null;
-        } else {
-            return executeSafe(() -> Paths.get(codeSource.getLocation().toURI()).getParent());
+            val jarIndex = path.indexOf(".jar!");
+            if (jarIndex < 0) {
+                return null;
+            }
+
+            path = path.substring(0, jarIndex);
+
+            val slashIndex = path.lastIndexOf("/");
+            if (slashIndex < 0) {
+                return null;
+            }
+
+            path = path.substring(0, slashIndex);
+            path = path.replace("jar:", "");
+            path = path.replace("file:", "");
+            if (path.startsWith("/")) {
+                path = path.substring(1);
+            }
+
+            return Paths.get(path);
         }
     }
 
