@@ -89,7 +89,17 @@ public final class FormatterHelper {
     }
 
     @NotNull
-    public static Double getNumeric(@NotNull final TextInputControl textInputControl) {
+    public static Integer getInteger(@NotNull final TextInputControl textInputControl) {
+        return getNumeric(textInputControl, Integer::valueOf);
+    }
+
+    @NotNull
+    public static Float getFloat(@NotNull final TextInputControl textInputControl) {
+        return getNumeric(textInputControl, Float::valueOf);
+    }
+
+    @NotNull
+    public static Double getDouble(@NotNull final TextInputControl textInputControl) {
         return getNumeric(textInputControl, Double::valueOf);
     }
 
