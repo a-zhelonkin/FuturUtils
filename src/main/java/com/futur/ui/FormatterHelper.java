@@ -1,5 +1,6 @@
 package com.futur.ui;
 
+import com.futur.common.helpers.DevelopmentHelper;
 import com.futur.common.helpers.StringHelper;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextFormatter;
@@ -120,6 +121,11 @@ public final class FormatterHelper {
         getNumeric(textInputControl, setter, Integer::valueOf);
     }
 
+    public static void getFloatNumeric(@NotNull final TextInputControl textInputControl,
+                                       @NotNull final Consumer<Float> setter) {
+        getNumeric(textInputControl, setter, Float::valueOf);
+    }
+
     public static void getDoubleNumeric(@NotNull final TextInputControl textInputControl,
                                         @NotNull final Consumer<Double> setter) {
         getNumeric(textInputControl, setter, Double::valueOf);
@@ -128,12 +134,7 @@ public final class FormatterHelper {
     public static <T extends Number> void getNumeric(@NotNull final TextInputControl textInputControl,
                                                      @NotNull final Consumer<T> setter,
                                                      @NotNull final Function<String, T> function) {
-        @NotNull final T numeric;
-        try {
-            setter.accept(getNumeric(textInputControl, function));
-        } catch (Exception ignored) {
-
-        }
+        DevelopmentHelper.executeSafe(() -> setter.accept(getNumeric(textInputControl, function)));
     }
 
 }
