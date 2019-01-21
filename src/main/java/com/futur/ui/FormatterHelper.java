@@ -6,7 +6,6 @@ import javafx.scene.control.Labeled;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextInputControl;
 import lombok.val;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +18,7 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 public final class FormatterHelper {
 
-    public FormatterHelper() {
+    private FormatterHelper() {
         StringHelper.throwNonInitializeable();
     }
 
@@ -94,8 +93,30 @@ public final class FormatterHelper {
     }
 
     @NotNull
+    public static Integer getInteger(@NotNull final TextInputControl textInputControl,
+                                     @NotNull final Integer defaultValue) {
+        return getNumeric(textInputControl, Integer::valueOf, defaultValue);
+    }
+
+    public static void getInteger(@NotNull final TextInputControl textInputControl,
+                                  @NotNull final Consumer<Integer> setter) {
+        getNumeric(textInputControl, Integer::valueOf, setter);
+    }
+
+    @NotNull
     public static Float getFloat(@NotNull final TextInputControl textInputControl) {
         return getNumeric(textInputControl, Float::valueOf);
+    }
+
+    @NotNull
+    public static Float getFloat(@NotNull final TextInputControl textInputControl,
+                                 @NotNull final Float defaultValue) {
+        return getNumeric(textInputControl, Float::valueOf, defaultValue);
+    }
+
+    public static void getFloat(@NotNull final TextInputControl textInputControl,
+                                @NotNull final Consumer<Float> setter) {
+        getNumeric(textInputControl, Float::valueOf, setter);
     }
 
     @NotNull
@@ -104,21 +125,26 @@ public final class FormatterHelper {
     }
 
     @NotNull
-    public static <T extends Number> T getNumeric(@NotNull final TextInputControl textInputControl,
-                                                  @NotNull final Function<String, T> function) {
-        return function.apply(textInputControl.getText());
-    }
-
-    @Contract("_, !null -> !null")
-    public static Double getNumeric(@NotNull final TextInputControl textInputControl,
-                                    @Nullable final Double defaultValue) {
+    public static Double getDouble(@NotNull final TextInputControl textInputControl,
+                                   @NotNull final Double defaultValue) {
         return getNumeric(textInputControl, Double::valueOf, defaultValue);
     }
 
+    public static void getDouble(@NotNull final TextInputControl textInputControl,
+                                 @NotNull final Consumer<Double> setter) {
+        getNumeric(textInputControl, Double::valueOf, setter);
+    }
+
     @NotNull
-    public static <T extends Number> T getNumeric(@NotNull final TextInputControl textInputControl,
-                                                  @NotNull final Function<String, T> function,
-                                                  @NotNull final T defaultValue) {
+    private static <T extends Number> T getNumeric(@NotNull final TextInputControl textInputControl,
+                                                   @NotNull final Function<String, T> function) {
+        return function.apply(textInputControl.getText());
+    }
+
+    @NotNull
+    private static <T extends Number> T getNumeric(@NotNull final TextInputControl textInputControl,
+                                                   @NotNull final Function<String, T> function,
+                                                   @NotNull final T defaultValue) {
         try {
             return getNumeric(textInputControl, function);
         } catch (Exception e) {
@@ -126,24 +152,9 @@ public final class FormatterHelper {
         }
     }
 
-    public static void getIntegerNumeric(@NotNull final TextInputControl textInputControl,
-                                         @NotNull final Consumer<Integer> setter) {
-        getNumeric(textInputControl, setter, Integer::valueOf);
-    }
-
-    public static void getFloatNumeric(@NotNull final TextInputControl textInputControl,
-                                       @NotNull final Consumer<Float> setter) {
-        getNumeric(textInputControl, setter, Float::valueOf);
-    }
-
-    public static void getDoubleNumeric(@NotNull final TextInputControl textInputControl,
-                                        @NotNull final Consumer<Double> setter) {
-        getNumeric(textInputControl, setter, Double::valueOf);
-    }
-
-    public static <T extends Number> void getNumeric(@NotNull final TextInputControl textInputControl,
-                                                     @NotNull final Consumer<T> setter,
-                                                     @NotNull final Function<String, T> function) {
+    private static <T extends Number> void getNumeric(@NotNull final TextInputControl textInputControl,
+                                                      @NotNull final Function<String, T> function,
+                                                      @NotNull final Consumer<T> setter) {
         DevelopmentHelper.executeSafe(() -> setter.accept(getNumeric(textInputControl, function)));
     }
 
