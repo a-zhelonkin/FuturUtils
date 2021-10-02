@@ -101,11 +101,12 @@ public final class ResourcesHelper {
             for (@NotNull val location : externalLocations) {
                 @NotNull val file = basePath.resolve(location).resolve(resourceName).normalize().toFile();
                 file = new File(file.getAbsolutePath().replaceAll("%20", " "));
-                log.info("External resource trying: {}", file);
                 if (file.exists()) {
                     log.info("External resource founded: {}", file);
                     return file;
                 }
+                
+                log.info("External resource tryed: {}", file);
             }
         }
 
