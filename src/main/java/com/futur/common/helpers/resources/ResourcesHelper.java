@@ -120,7 +120,7 @@ public final class ResourcesHelper {
     @Nullable
     private static Path findBaseExternalLocation(@NotNull final Class clazz) {
         try {
-            return Paths.get(clazz.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
+            return Paths.get(clazz.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
         } catch (Throwable e) {
             @NotNull val url = clazz.getResource(clazz.getSimpleName() + ".class");
             @NotNull String path = url.getPath();
