@@ -99,7 +99,7 @@ public final class ResourcesHelper {
 
         if (basePath != null) {
             for (@NotNull val location : externalLocations) {
-                @NotNull val file = basePath.resolve(location).resolve(resourceName).normalize().toFile();
+                @NotNull File file = basePath.resolve(location).resolve(resourceName).normalize().toFile();
                 file = new File(file.getAbsolutePath().replaceAll("%20", " "));
                 if (file.exists()) {
                     log.info("External resource founded: {}", file);
