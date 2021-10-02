@@ -100,6 +100,7 @@ public final class ResourcesHelper {
         if (basePath != null) {
             for (@NotNull val location : externalLocations) {
                 @NotNull val file = basePath.resolve(location).resolve(resourceName).normalize().toFile();
+                file = new File(file.getAbsolutePath().replaceAll("%20", " "));
                 log.info("External resource trying: {}", file);
                 if (file.exists()) {
                     log.info("External resource founded: {}", file);
@@ -120,8 +121,7 @@ public final class ResourcesHelper {
     @Nullable
     private static Path findBaseExternalLocation(@NotNull final Class clazz) {
         try {
-            Path parent = Paths.get(clazz.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
-            return Paths.get(parent.toString().replaceAll("%20", " "));
+            return Paths.get(clazz.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
         } catch (Throwable e) {
             @NotNull val url = clazz.getResource(clazz.getSimpleName() + ".class");
             @NotNull String path = url.getPath();
